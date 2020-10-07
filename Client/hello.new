@@ -1,12 +1,14 @@
 start:
-    state "hi"
+    lnstate "hi"
     go other_label
     go level2
     state "test2"
-    stop
+    end
+    stop    
 
 other_label:
     state "raphael is handsome"
+    end
 
 level2:
     state "from level2"

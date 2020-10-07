@@ -1,8 +1,9 @@
 class Evaluator {
-    constructor(AST) {
+    constructor(AST, errorClass) {
         this.AST = AST;
         this.result = '';
         this.program = true;
+        this.errorClass = errorClass;
     }
 
     run(node) {
@@ -23,20 +24,29 @@ class Evaluator {
     }
 
     execute(loc) {
-        if (loc[1] instanceof Array) {
-            this.run(loc[1]);
-        }
-        else if (loc[0] == 'state') {
-            this.state(loc[1]);
-        }
-        else if (loc[0] == 'stop') {
-            this.stop();
-        }
-        else if (loc[0] == 'go') {
-            this.go(loc[1]);
-        }
+        if (this.program) {
+            if (loc[1] instanceof Array) {
+                this.run(loc[1]);
+            }
+            else if (loc[0] == 'state') {
+                this.state(loc[1]);
+            }
+            else if (loc[0] == 'lnstate') {
+                this.lnstate(loc[1]);
+            }
+            else if (loc[0] == 'stop') {
+                this.stop();
+            }
+            else if (loc[0] == 'go') {
+                this.go(loc[1]);
+            }
+            else if (loc[0] == 'end') {
+                this.end();
+            }
+        }        
     }
 
+    // Method Functions
     go(v) {
         for (let node in this.AST) {
             if (this.AST[node][v]) {
@@ -49,7 +59,15 @@ class Evaluator {
         $("#code_result").val($("#code_result").val() + v);
     }
 
+    lnstate(v) {
+        $("#code_result").val($("#code_result").val() + v + "\n");
+    }
+
     stop() {        
         this.program = false;        
+    }
+
+    end() {      
+        // this.program = false;    
     }
 }

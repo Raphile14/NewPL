@@ -1,0 +1,19 @@
+go
+- call to another label
+
+state
+- print an inline string
+
+lnstate
+- print a string with new line
+
+stop
+- forcestop the code
+
+end
+- end a label
+
+todo
+- arithmethic operations
+- variables
+- fix end error handling bug
