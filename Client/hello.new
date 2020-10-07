@@ -1,0 +1,12 @@
+start:
+    state "hi"
+    go other_label
+    go level2
+    state "test2"
+    stop
+
+other_label:
+    state "raphael is handsome"
+
+level2:
+    state "from level2"

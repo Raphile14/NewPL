@@ -1,0 +1,72 @@
+html, body {
+    height: 100%;
+    width: 100%;    
+    background-color:#fffdf5;
+}
+
+div#console.top {
+    border-color: black;
+    
+}
+
+div#terminal.bottom {
+    border-color: black;
+}
+
+textarea#code_input, textarea#code_result {
+    width: 100%;
+    max-width: 100%;  
+    min-height: 100%;
+    height: 500px;   
+    background-color: #24273f;
+    color: white;
+}
+
+/* Media Queries */
+/* Desktop Version */
+@media (min-width: 992px) {
+    div#console.top {
+        float: left;
+        width: 50%;    
+        min-height: 100%;
+        height: 100%;      
+    }
+    
+    div#terminal.bottom {
+        float: right;
+        width: 50%;
+        min-height: 100%;
+        height: 100%;  
+    }
+}
+
+/* Tablet Version */
+@media (min-width: 768px) and (max-width: 991px) {
+    div#console.top {
+        float: left;
+        width: 100%;  
+        height: 50%; 
+    }
+    
+    div#terminal.bottom {
+        float: left;
+        width: 100%; 
+        height: 50%;    
+    }
+}
+
+
+/* Mobile Version */
+@media (max-width: 767px) {
+    div#console.top {
+        float: left;
+        width: 100%; 
+        height: 50%;    
+    }
+    
+    div#terminal.bottom {
+        float: left;
+        width: 100%; 
+        height: 50%;    
+    }
+}
