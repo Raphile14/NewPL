@@ -55,10 +55,16 @@ class Lexer {
                     tmp.push(l);                    
                 }
             }
-            console.log(tmp)
-            console.log("line: " + this.line)
-            console.log("col: " + this.column)
+            // console.log(tmp)
+            // console.log("line: " + this.line)
+            // console.log("col: " + this.column)
         }
+        // if (tmp.length != 0) {
+        //     this.errorClass.state(2, this.line, this.column);
+        // }
+        // console.log(tmp.length)
+        // console.log("line: " + this.line)
+        // console.log("col: " + this.column)
         
         // console.log(this.tokens)
     }

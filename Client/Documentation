@@ -17,3 +17,7 @@ todo
 - arithmethic operations
 - variables
 - fix end error handling bug
+
+
+for errors
+- can determine if a function label does not exist

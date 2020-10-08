@@ -7,21 +7,32 @@ class Error {
                 "type": "Syntax Error:"
             },
             "1": {
-                "name": "Invalid Syntax!",
+                "name": "Function label is not defined!",
                 "type": "Syntax Error:"
             },
             "2": {
-                "name": "Invalid number of parenthesis on Arithmetic Operation!",
+                "name": "Invalid Syntax! Last command not registered",
                 "type": "Syntax Error:"
             },
             "3": {
-                "name": "A prior function label must contain and 'end'!",
+                "name": "A prior function label must contain an 'end'!",
                 "type": "Syntax Error:"
             },
             "4":  {
                 "name": "An 'end' command must be in a function label",
                 "type": "Syntax Error:"
             }
+        }
+    }
+    stateLabel (code, label) {
+        console.log(label.length)
+        let pointer = (" ").repeat(label.length) + "^";
+        let error_message = (
+            "\n" + label + "\n" + pointer + "\n" +
+            this.storage[code]["type"] + " " + this.storage[code]["name"])
+            $("#code_result").val($("#code_result").val() + error_message + "\n");        
+        throw {
+
         }
     }
     state(code, line, column) {
@@ -52,5 +63,9 @@ class Error {
         this.storage[code]["type"] + " " + this.storage[code]["name"]
         + "\n\tat line: " + line + "\n\tat column: " + column);
         $("#code_result").val($("#code_result").val() + error_message + "\n");        
+        throw  {
+
+        }  
+          
     }
 }

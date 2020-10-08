@@ -48,10 +48,16 @@ class Evaluator {
 
     // Method Functions
     go(v) {
+        let exist = false;
         for (let node in this.AST) {
             if (this.AST[node][v]) {
                 this.run(this.AST[node][v])
+                exist = true;
             }
+        }
+        if (!exist) {
+            console.log(this.AST);
+            this.errorClass.stateLabel(1, v);            
         }
     }
 

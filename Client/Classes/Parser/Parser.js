@@ -40,14 +40,15 @@ class Parser {
                     }
                     else {
                         this.error = true;
-                        this.errorClass.state(3, this.tokens[token]['line'], this.tokens[token]['column'] - 1);
+                        console.log(this.AST)
+                        this.errorClass.state(3, this.tokens[token-1]['line'], this.tokens[token-1]['column'] - 1);
                     }
                     // console.log("1")
                 }
                 else if (this.tokens[token]['id'] == 'keyword') {                             
                     if (this.tokens[token]['value'] == 'end') {
                         // If there is no parent
-                        if (jQuery.isEmptyObject(parent)) {
+                        if (jQuery.isEmptyObject(parent) || !added_label) {                            
                             this.error = true;
                             this.errorClass.state(4, this.tokens[token]['line'], this.tokens[token]['column']);
                         }
