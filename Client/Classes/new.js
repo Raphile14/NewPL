@@ -8,9 +8,10 @@
 function main(data) {
     // console.log(data)
     // let data = fs.readFileSync('hello.new', 'UTF-8');
-    let errorClass = new Error(data);
-    let lexer = new Lexer(data, errorClass);    
-    let parser = new Parser(lexer.tokens, errorClass);    
+    // let errorClass = new Error(data);
+    // let lexer = new Lexer(data, errorClass);        
+    let lexer = new Lexer(data);    
+    // let parser = new Parser(lexer.tokens, errorClass);    
 
     // Generate Tokens
     lexer.tokenizer()
@@ -21,14 +22,14 @@ function main(data) {
     // console.log(lexer.tokens + "\n")
 
     // Generate AST
-    parser.build_AST()
+    // parser.build_AST()
     // console.log("AST:")
     // console.log(parser.AST)
 
     // Evaluate AST
-    let evaluator = new Evaluator(parser.AST, errorClass)
+    // let evaluator = new Evaluator(parser.AST, errorClass)
     // console.log("OUTPUT:")
-    evaluator.run(parser.AST)
+    // evaluator.run(parser.AST)
     $("#code_result").val($("#code_result").val() + "\n");
     // let result = evaluator.result;
     // console.log(evaluator.result.length)

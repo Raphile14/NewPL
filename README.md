@@ -5,6 +5,11 @@ Final project for CS121.1T.20.21: Programming Languages
 This is a new repository. The New programming language will be deployed on the internet
 
 # Changelog
+indev 2.0.0 (10-26-2020)
+- Code Restructure (logic from scratch)
+- Major Overhaul
+- Variable declaration with the capability to sell values to null (str, int, float, boolean)
+
 indev 1.1.1 (10-08-2020)
 - Bug fixes in some cases
 - Additional error messages

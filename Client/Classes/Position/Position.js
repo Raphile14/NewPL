@@ -1,6 +1,27 @@
 class Position {
-    constructor(line, column) {
-        this.line = line;
-        this.column = column;
+    constructor() {
+        this.line = 0;
+        this.column = 0;
+        this.total = 0;
+    }
+
+    advanceTotal() {
+        this.total++;
+    }
+
+    advanceLine() {
+        this.line++;
+    }
+
+    advanceColumn() {
+        this.column++;
+    }
+
+    resetLine() {
+        this.line = 0;
+    }
+
+    resetColumn() {
+        this.column = 0;
     }
 }

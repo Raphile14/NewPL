@@ -1,0 +1,9 @@
+func main {
+
+str test;
+int test2 = 10;
+float test3 = 10;
+bool test4 = true;
+str test5 = hi;
+
+}
