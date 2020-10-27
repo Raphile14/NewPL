@@ -6,6 +6,10 @@
  
 
 function main(data) {
+    // Clear Cache
+    defined_functions = [];
+    defined_variables = [];
+
     // console.log(data)
     // let data = fs.readFileSync('hello.new', 'UTF-8');
     // let errorClass = new Error(data);

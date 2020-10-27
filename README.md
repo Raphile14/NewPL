@@ -5,6 +5,9 @@ Final project for CS121.1T.20.21: Programming Languages
 This is a new repository. The New programming language will be deployed on the internet
 
 # Changelog
+indev 2.3.1 (10-27-2020)
+- Storage bug fix
+
 indev 2.3.0 (10-27-2020)
 - Printing strings now work
 - Printing variable data now work
