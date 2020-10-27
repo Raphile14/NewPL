@@ -1,103 +1,102 @@
 class Parser {
-    constructor(tokens, errorClass) {
-        this.tokens     = tokens
-        this.AST        = [];
-        this.error      = false;
-        this.errorClass = errorClass;
+    constructor(tokens) {
+        this.tokens = tokens;
+        this.AST = [];        
     }
 
-    add_node(parent, node) {        
-        for (let a in this.AST) {
-            // console.log(this.AST[a])
-            // console.log(this.AST[a][parent])
-            if (this.AST[a][parent]) {
-                this.AST[a][parent].push(node);   
-                // console.log(node)
-            }            
+    add_node(parent, node) {
+        for (let x in this.AST) {
+            if (this.AST[x][parent]) {
+                this.AST[x][parent].push(node);
+            }
         }
     }
 
     build_AST() {
-        let saved       = {};
-        let parent      = {};
-        let collect     = false
-        let added_label = false;
+        let saved = {};
+        let parent = '';
+        let collect = false;
+        let added_func = false;
+        let value = '';
 
-        console.log(this.tokens)
-        for (let token in this.tokens) {
-            if (!this.error) {
-                // console.log(this.tokens[token])
-                // console.log (this.tokens[token]['id'])            
-                if (this.tokens[token]['id'] == 'label') {
-                    let value = this.tokens[token]['value'];
-                    let t = {};
-                    t[value] = []
-                    
-                    if (parent != t && !added_label) {
-                        parent = this.tokens[token]['value'];
-                        added_label = true;
-                        this.AST.push(t);
-                    }
-                    else {
-                        this.error = true;
-                        console.log(this.AST)
-                        this.errorClass.state(3, this.tokens[token-1]['line'], this.tokens[token-1]['column'] - 1);
-                    }
-                    // console.log("1")
-                }
-                else if (this.tokens[token]['id'] == 'keyword') {                             
-                    if (this.tokens[token]['value'] == 'end') {
-                        // If there is no parent
-                        if (jQuery.isEmptyObject(parent) || !added_label) {                            
-                            this.error = true;
-                            this.errorClass.state(4, this.tokens[token]['line'], this.tokens[token]['column']);
-                        }
-                        else {
-                            let value = this.tokens[token]['value'];
-                            let t = {};
-                            t[value] = 0
-                            added_label = false;      
-                            this.add_node(parent, t);
-                        }                    
-                    }
-                    else if (this.tokens[token]['value'] == 'stop') {
-                        let value = this.tokens[token]['value'];
+        for (let x in this.tokens) {
+
+            // Check if current element is a function
+            if (this.tokens[x]['id'] == 'func') {
+                value = this.tokens[x]['value'];
+                added_func = true;
+            }
+
+            // Check if current element is a container open
+            else if (this.tokens[x]['id'] == 'container') {
+                
+                // If function declaration is called
+                if (added_func) {
+
+                    // If current element is a '{'
+                    if (this.tokens[x]['value'] == 'open') {
                         let t = {};
-                        t[value] = 0;
-                        this.add_node(parent, t);
-                    }
-                    else {
-                        if (!collect) {
-                            saved = this.tokens[token];
-                            // console.log(saved)
-                            collect = true;
-                        }
-                        else {
-                            let t = {};
-                            t[saved['value']] = this.tokens[token]['value'];
-                            this.add_node(parent, t);
-                            collect = false;
+                        t[value] = [];
+
+                        // Check if a parent is existing based on top code
+                        if (parent != t) {
+                            parent = value;
+                            this.AST.push(t);
                         }
                     }
-                }
-                else if (this.tokens[token]['id'] == 'char' || this.tokens[token]['id'] == 'atom') {
-                    if (!collect) {
-                        saved = this.tokens[token];
-                        // console.log(saved)
-                        collect = true;
-                    }
-                    else {
-                        let t = {};
-                        t[saved['value']] = this.tokens[token]['value'];
-                        // console.log(this.tokens[token]['value'])                    
-                        this.add_node(parent, t);
-                        collect = false;
+
+                    // If current element is a '}'
+                    // Close temporary storage
+                    else if (this.tokens[x]['value'] == 'close') {
+                        added_func = false;
+                        parent = {};
+                        parent = '';
                     }
                 }
-            }             
+
+                // If function declaration is not called
+                else {
+                    // TODO: Add error message
+                }
+                
+            }
+
+            // If current element is a variable
+            else if (data_types.includes(this.tokens[x]['id'])) {
+                let t = {};
+                t[this.tokens[x]['name']] = {'type': this.tokens[x]['id'],'value': this.tokens[x]['value']};
+
+                // If a function is not declared
+                if (parent == '') {
+                    this.AST.push(t);
+                    console.log("solo")
+                }   
+                // If a function is declared
+                else {                    
+                    this.add_node(parent, t);
+                }             
+            }
+
+            // Check if current value is an accepted action
+            // Does not support inside function function declaration
+            else if (keywords.includes(this.tokens[x]['id']) && this.tokens[x]['id'] != 'func' && !data_types.includes(this.tokens[x])) {
+                // console.log("here")
+
+                // Add other commands as child nodes
+                                
+                // if (!collect) {
+                //     saved = this.tokens[x];
+                //     collect = true;                
+                //     console.log(this.tokens[x]);
+                // }
+                // else {
+                //     let t = {};
+                //     t[saved['value']] = this.tokens[x]['value'];
+                //     this.add_node(parent, t);
+                //     collect = false;
+                // }
+            }
+            // console.log(this.tokens[x])
         }
-        // console.log(this.AST)
-        // console.log(this.AST[1])
-        // console.log(this.AST[0]['start'][0]);        
     }
 }

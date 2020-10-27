@@ -12,6 +12,7 @@ function main(data) {
     // let lexer = new Lexer(data, errorClass);        
     let lexer = new Lexer(data);    
     // let parser = new Parser(lexer.tokens, errorClass);    
+    let parser = new Parser(lexer.tokens);    
 
     // Generate Tokens
     lexer.tokenizer()
@@ -22,9 +23,9 @@ function main(data) {
     // console.log(lexer.tokens + "\n")
 
     // Generate AST
-    // parser.build_AST()
-    // console.log("AST:")
-    // console.log(parser.AST)
+    parser.build_AST()
+    console.log("AST:")
+    console.log(parser.AST)
 
     // Evaluate AST
     // let evaluator = new Evaluator(parser.AST, errorClass)

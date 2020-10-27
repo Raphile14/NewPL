@@ -24,4 +24,8 @@ class Position {
     resetColumn() {
         this.column = 0;
     }
+
+    getTotal() {
+        return this.total;
+    }
 }

@@ -2,13 +2,15 @@ class Token {
     constructor(id, value) {
         this.id = id;
         this.value = value;
+        this.total = position.getTotal();
     }
 }
 class Variable {
     constructor(id, value, type) {        
-        this.id = id;
+        this.id = id;        
+        this.name = type;
         this.value = value;
-        this.type = type;
+        this.total = position.getTotal();
     }
 }
 class Lexer {
@@ -18,8 +20,8 @@ class Lexer {
     }
 
     tokenizer() {
-        console.log(keywords.length)
-        console.log(this.data);
+        // console.log(keywords.length)
+        // console.log(this.data);
 
         // Current status
         let status = '';
@@ -42,7 +44,7 @@ class Lexer {
             else if (keywords.includes(current_value) && status == '') {
                 status = current_value;
                 current_value = '';
-                console.log(status);
+                // console.log(status);
             }
 
             // Function definition by looking for '{'
@@ -71,22 +73,22 @@ class Lexer {
                 // TODO: store to global storage and check if variable exists 
                 // Declared variable without value
                 if (data_types.includes(status) && current_value != '' && id == '') {
-                    this.tokens.push(new Variable(current_value, null, status));
+                    this.tokens.push(new Variable(status, null, current_value));
                 }
                 // Declared str with value
                 else if (status == 'str' && current_value != '' && id != '') {
                     // TODO: Add capability to increment variables to string
-                    this.tokens.push(new Variable(id, current_value, status));
+                    this.tokens.push(new Variable(status, current_value, id));
                 }
                 // Declared int with value
                 else if (status == 'int' && current_value != '' && id != '') {
                     // TODO: Add error check if value is not an int
-                    this.tokens.push(new Variable(id, parseInt(current_value), status));
+                    this.tokens.push(new Variable(status, parseInt(current_value), id));
                 }
                 // Declared float with value
                 else if (status == 'float' && current_value != '' && id != '') {
                     // TODO: Add error check if value is not an float
-                    this.tokens.push(new Variable(id, parseFloat(current_value), status));
+                    this.tokens.push(new Variable(status, parseFloat(current_value), id));
                 }
                 // Declared boolean with value
                 else if (status == 'bool' && current_value != '' && id != '') {
@@ -100,9 +102,10 @@ class Lexer {
                     }
                     else {
                         // TODO: Error if not a boolean input
-                        console.log("boolean error")
+                        console.log("boolean error");
+                        break;
                     }
-                    this.tokens.push(new Variable(id, value, status));
+                    this.tokens.push(new Variable(status, value, id));
                 }
                 id = '';
                 status = '';
@@ -119,8 +122,8 @@ class Lexer {
                 current_value += this.data[x];
             }            
         }
-        console.log(current_value);
-        console.log(this.tokens);
-        console.log(position)
+        // console.log(current_value);
+        // console.log(this.tokens);
+        // console.log(position)
     }
 }

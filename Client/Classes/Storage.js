@@ -11,6 +11,11 @@ let keywords = [
     'enter' // accept a user input
 ]
 
+// List of actions accepted inside a function
+let accepted_actions = [
+
+]
+
 let data_types = [
     'str', // declare string variable
     'int', // declare int variable
