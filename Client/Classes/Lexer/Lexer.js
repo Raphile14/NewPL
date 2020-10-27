@@ -5,6 +5,14 @@ class Token {
         this.total = position.getTotal();
     }
 }
+class StringPrint {
+    constructor(id, value, isString) {
+        this.id = id;
+        this.value = value;
+        this.isString = isString;
+        this.total = position.getTotal();
+    }
+}
 class Variable {
     constructor(id, value, type) {        
         this.id = id;        
@@ -27,6 +35,8 @@ class Lexer {
         let status = '';
         let id = ''; // for variable declaration
         let current_value = '';
+        let collect = false; // set to collect string values
+        let stringVal = false; // determing if collect string value is a string or variable
 
         // Running through each character
         for (let x = 0; x < this.data.length; x++) {
@@ -56,7 +66,7 @@ class Lexer {
             }
 
             // Looking for '}' to end a function
-            else if (this.data[x] == '}' && status != 'char') {
+            else if (this.data[x] == '}' && (!collect)) {
                 this.tokens.push(new Token('container', 'close'));
                 status = '';
                 current_value = '';
@@ -68,8 +78,37 @@ class Lexer {
                 current_value = '';
             }
 
+            // Printing lnstate and state STRING VERSION 
+            else if ((status == 'lnstate' || status == 'state') && this.data[x] == '"') {
+                // Allow collection of string with whitespaces
+                if (!collect) {
+                    collect = true;
+                }
+                // Turn off string collection
+                else if (collect) {
+                    collect = false;
+                    stringVal = true;
+                    // console.log(current_value)
+                }
+                // console.log("print function");
+            }
+
+            // Printing lnstate and state VARIABLE VERSION 
+            else if ((status == 'lnstate' || status == 'state') && (this.data[x] == '(' || this.data[x] == ')')) {
+                // Allow collection of string with whitespaces
+                if (!collect && this.data[x] == '(') {
+                    collect = true;
+                }
+                // Turn off string collection
+                else if (collect && this.data[x] == ')') {
+                    collect = false;
+                    // console.log(current_value)
+                }
+                // console.log("print function");
+            }
+
             // Detect Delimeter
-            else if (this.data[x] == ';') {                
+            else if (this.data[x] == ';' && !collect) {                
                 // TODO: store to global storage and check if variable exists 
                 // Declared variable without value
                 if (data_types.includes(status) && current_value != '' && id == '') {
@@ -108,18 +147,33 @@ class Lexer {
                     this.tokens.push(new Variable(status, value, id));
                 }
 
+                // Printing
+                else if (status == 'lnstate' || status == 'state') {
+                    if (stringVal) {
+                        this.tokens.push(new StringPrint(status, current_value, true));
+                    }
+                    else {
+                        this.tokens.push(new StringPrint(status, current_value, false));
+                    }
+                    stringVal = false;
+                    // console.log(status)
+                    // console.log(current_value)
+                    // console.log("pushed")
+                }
+
                 // Calling a function
                 else if (status == 'call' && current_value != '') {
-                    console.log('function ' + current_value + ' is called');
+                    // console.log('function ' + current_value + ' is called');
                     this.tokens.push(new Token(status, current_value));
-                }
+                }                
+
                 id = '';
                 status = '';
                 current_value = '';
             }
 
             // Check if current character is a whitespace and not include it if the code is not collecting strings
-            else if ((this.data[x] == ' ' || this.data[x] == '\t' || this.data[x] == '\r') && status != 'char') {
+            else if ((this.data[x] == ' ' || this.data[x] == '\t' || this.data[x] == '\r') && (!collect)) {
                 continue;
             }
 
@@ -129,7 +183,7 @@ class Lexer {
             }            
         }
         // console.log(current_value);
-        // console.log(this.tokens);
+        console.log(this.tokens);
         // console.log(position)
     }
 }

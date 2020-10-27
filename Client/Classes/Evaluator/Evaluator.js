@@ -42,10 +42,10 @@ class Evaluator {
                 }                
             }
             else if (code[0] == 'state') {
-                this.state(code[1]);
+                this.state(code[1], false);
             }
             else if (code[0] == 'lnstate') {
-                this.state('\n' + code[1]);
+                this.state(code[1], true);
             }
             else if (code[0] == 'stop') {
                 this.stop();
@@ -75,8 +75,23 @@ class Evaluator {
     }
 
     // Method Functions
-    state(v) {
-        $("#code_result").val($("#code_result").val() + v);
+    state(v, printLine) {
+        let value = '';
+        if (printLine) {
+            value += '\n';
+        }
+        if (v['isString']) {
+            value += v['value'];
+        }
+        else {
+            if (defined_variables[v['value']]) {
+                value += defined_variables[v['value']]['value'];
+            }           
+            else {
+                // TODO: error if variable does not exist
+            } 
+        }
+        $("#code_result").val($("#code_result").val() + value);
     }
 
     stop() {

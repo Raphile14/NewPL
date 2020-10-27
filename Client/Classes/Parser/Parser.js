@@ -80,33 +80,20 @@ class Parser {
             // Does not support inside function function declaration
             else if (keywords.includes(this.tokens[x]['id']) && this.tokens[x]['id'] != 'func' && !data_types.includes(this.tokens[x])) {
 
-                if (this.tokens[x]['id'] == 'call') {
-                    let t = {};
-                    t['call'] = {'value': this.tokens[x]['value']};
-                    
-                    // If called outside a function
-                    if (parent == '') {
-                        this.AST.push(t);
-                    }                    
-                    else {
-                        this.add_node(parent, t);
-                    }
-                }
-                // console.log("here")
+                // Inital values
+                // Convert actions into json readables
+                let t = {};
+                t[this.tokens[x]['id']] = this.tokens[x];
 
-                // Add other commands as child nodes
-                                
-                // if (!collect) {
-                //     saved = this.tokens[x];
-                //     collect = true;                
-                //     console.log(this.tokens[x]);
-                // }
-                // else {
-                //     let t = {};
-                //     t[saved['value']] = this.tokens[x]['value'];
-                //     this.add_node(parent, t);
-                //     collect = false;
-                // }
+                // If called outside a function or no parent
+                if (parent == '') {
+                    this.AST.push(t);
+                }
+                
+                // If command has a parent
+                else {
+                    this.add_node(parent, t);
+                }
             }
             // console.log(this.tokens[x])
         }
