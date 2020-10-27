@@ -107,6 +107,12 @@ class Lexer {
                     }
                     this.tokens.push(new Variable(status, value, id));
                 }
+
+                // Calling a function
+                else if (status == 'call' && current_value != '') {
+                    console.log('function ' + current_value + ' is called');
+                    this.tokens.push(new Token(status, current_value));
+                }
                 id = '';
                 status = '';
                 current_value = '';

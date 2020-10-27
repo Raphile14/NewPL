@@ -64,12 +64,11 @@ class Parser {
             // If current element is a variable
             else if (data_types.includes(this.tokens[x]['id'])) {
                 let t = {};
-                t[this.tokens[x]['name']] = {'type': this.tokens[x]['id'],'value': this.tokens[x]['value']};
+                t['variable'] = {'name': this.tokens[x]['name'], 'type': this.tokens[x]['id'],'value': this.tokens[x]['value']};
 
                 // If a function is not declared
                 if (parent == '') {
                     this.AST.push(t);
-                    console.log("solo")
                 }   
                 // If a function is declared
                 else {                    
@@ -80,6 +79,19 @@ class Parser {
             // Check if current value is an accepted action
             // Does not support inside function function declaration
             else if (keywords.includes(this.tokens[x]['id']) && this.tokens[x]['id'] != 'func' && !data_types.includes(this.tokens[x])) {
+
+                if (this.tokens[x]['id'] == 'call') {
+                    let t = {};
+                    t['call'] = {'value': this.tokens[x]['value']};
+                    
+                    // If called outside a function
+                    if (parent == '') {
+                        this.AST.push(t);
+                    }                    
+                    else {
+                        this.add_node(parent, t);
+                    }
+                }
                 // console.log("here")
 
                 // Add other commands as child nodes

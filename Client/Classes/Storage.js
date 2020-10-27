@@ -2,13 +2,14 @@
 let keywords = [
     'func', // declare function
     'state', // print in line
-    'stateln', // print with new line
+    'lnstate', // print with new line
     'str', // declare string variable
     'int', // declare int variable
     'flt', // declare float variable
     'bool', // declare boolean variable
     'exec', // execute equation
-    'enter' // accept a user input
+    'enter', // accept a user input
+    'call' // call a method
 ]
 
 // List of actions accepted inside a function

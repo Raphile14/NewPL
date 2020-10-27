@@ -1,9 +1,7 @@
 class Evaluator {
-    constructor(AST, errorClass) {
-        this.AST = AST;
-        this.result = '';
+    constructor() {
+        // this.AST = AST;
         this.program = true;
-        this.errorClass = errorClass;
     }
 
     run(node) {
@@ -11,69 +9,77 @@ class Evaluator {
             if (node instanceof Array) {
                 for (let n in node) {
                     for (let [k, v] of Object.entries(node[n])) {
-                        this.execute([k, v])
+                        this.execute([k, v]);
+                        // console.log("first")
+                        // console.log(k)
+                        // console.log(v)      
+                        // console.log("-----")                  
                     }
                 }
             }
-            else if (typeof node == Object) { // a.constructor == Object
+            else if (typeof node == Object) {
                 for (let [k, v] of Object.entries(node[n])) {
-                    this.execute([k, v])
+                    this.execute([k, v]);
+                    // console.log("second")
+                    // console.log(k)
+                    // console.log(v)                    
+                    // console.log("-----")                  
                 }
             }
-        }        
+        }
     }
 
-    execute(loc) {
+    execute(code) {
         if (this.program) {
-            if (loc[1] instanceof Array) {
-                this.run(loc[1]);
+            if (code[1] instanceof Array) {
+                // TODO: Should not run unless called
+                // this.run(code[1]);
+                if (defined_functions[code[0]]) {
+                    // TODO: Function already declared
+                }
+                else {
+                    defined_functions[code[0]] = code[1];
+                }                
             }
-            else if (loc[0] == 'state') {
-                this.state(loc[1]);
+            else if (code[0] == 'state') {
+                this.state(code[1]);
             }
-            else if (loc[0] == 'lnstate') {
-                this.lnstate(loc[1]);
+            else if (code[0] == 'lnstate') {
+                this.state('\n' + code[1]);
             }
-            else if (loc[0] == 'stop') {
+            else if (code[0] == 'stop') {
                 this.stop();
             }
-            else if (loc[0] == 'go') {
-                this.go(loc[1]);
+
+            // Check if current element is a variable
+            else if (code[0] == 'variable') {
+                if (defined_variables[code[1]['name']]) {
+                    // TODO: Error variable already exists
+                    console.log('variable already exists')
+                }
+                else {
+                    defined_variables[code[1]['name']] = {type: code[1]['type'], value: code[1]['value']} ;
+                }
             }
-            else if (loc[0] == 'end') {
-                this.end();
+
+            // If a function is getting called
+            else if (code[0] == 'call') {
+                if (defined_functions[code[1]['value']]) {
+                    this.run(defined_functions[code[1]['value']]);
+                }
+                else {
+                    // TODO: Error function does not exist
+                }
             }
-        }        
+        }
     }
 
     // Method Functions
-    go(v) {
-        let exist = false;
-        for (let node in this.AST) {
-            if (this.AST[node][v]) {
-                this.run(this.AST[node][v])
-                exist = true;
-            }
-        }
-        if (!exist) {
-            console.log(this.AST);
-            this.errorClass.stateLabel(1, v);            
-        }
-    }
-
     state(v) {
         $("#code_result").val($("#code_result").val() + v);
     }
 
-    lnstate(v) {
-        $("#code_result").val($("#code_result").val() + v + "\n");
-    }
-
-    stop() {        
-        this.program = false;        
-    }
-
-    end() {      
-        // this.program = false;    
+    stop() {
+        this.program = false;
     }
 }

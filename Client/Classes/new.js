@@ -24,14 +24,17 @@ function main(data) {
 
     // Generate AST
     parser.build_AST()
-    console.log("AST:")
+    // console.log("AST:")
     console.log(parser.AST)
 
     // Evaluate AST
     // let evaluator = new Evaluator(parser.AST, errorClass)
+    let evaluator = new Evaluator()
     // console.log("OUTPUT:")
-    // evaluator.run(parser.AST)
+    evaluator.run(parser.AST)
     $("#code_result").val($("#code_result").val() + "\n");
+    // console.log(defined_variables);
+    // console.log(defined_functions);
     // let result = evaluator.result;
     // console.log(evaluator.result.length)
 }
