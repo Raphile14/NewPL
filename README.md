@@ -5,6 +5,10 @@ Final project for CS121.1T.20.21: Programming Languages
 This is a new repository. The New programming language will be deployed on the internet
 
 # Changelog
+indev 2.6.0 (10-29-2020)
+- loop (similar to while loop) functionality implemented
+- if (similar to if statement) functionality implemented
+
 indev 2.4.0 (10-29-2020)
 - Bug Fixes
 - Changes to Syntax

@@ -9,7 +9,9 @@ let keywords = [
     'bool', // declare boolean variable
     'exec', // execute equation
     'enter', // accept a user input
-    'call' // call a method
+    'call', // call a method
+    'loop', // while loop
+    'if' // if statement
 ]
 
 // List of actions accepted inside a function

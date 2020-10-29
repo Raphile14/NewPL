@@ -38,7 +38,7 @@ function main(data) {
     evaluator.run(parser.AST)
     $("#code_result").val($("#code_result").val() + "\n");
     console.log(defined_variables);
-    // console.log(defined_functions);
+    console.log(defined_functions);
     // let result = evaluator.result;
     // console.log(evaluator.result.length)
 }

@@ -52,15 +52,8 @@ class Evaluator {
             }
 
             // Check if current element is a variable
-            else if (code[0] == 'variable') {
-                if (defined_variables[code[1]['name']]) {
-                    // TODO: Error variable already exists
-                    console.log('variable already exists')
-                }
-                else {
-                    defined_variables[code[1]['name']] = {type: code[1]['type'], value: code[1]['value']};
-                    window[code[1]['name']] = code[1]['value'];
-                }
+            else if (code[0] == 'variable') {                
+                this.declare_variable(code);                
             }
             
             // If execution is getting called
@@ -77,13 +70,45 @@ class Evaluator {
                     // TODO: Error function does not exist
                 }
             }
+
+            // If a loop is called
+            else if (code[0] == 'loop') {
+                this.loop(code);
+            }
+
+            // If an if statement is called
+            else if (code[0] == 'if') {
+                this.if_statement(code);
+            }
+        }
+    }
+
+    if_statement(code) {
+        if (eval(code[1]['value'])) {
+            this.run(defined_functions[code[1]['name']]);
+        }
+    }
+
+    loop (code) {
+        while (eval(code[1]['value'])) {
+            this.run(defined_functions[code[1]['name']])
+        }
+    }
+
+    declare_variable (code) {
+        if (defined_variables[code[1]['name']]) {
+            // TODO: Error variable already exists
+            console.log('variable already exists')
+        }
+        else {
+            defined_variables[code[1]['name']] = {type: code[1]['type'], value: code[1]['value']};
+            window[code[1]['name']] = code[1]['value'];
         }
     }
 
     // Method Functions
     exec(code) {
         if (defined_variables[code[1]['name']]) {
-            console.log('exec called')
 
             try {
                 // If element is string

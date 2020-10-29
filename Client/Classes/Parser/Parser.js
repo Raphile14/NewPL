@@ -1,20 +1,43 @@
 class Parser {
     constructor(tokens) {
         this.tokens = tokens;
-        this.AST = [];        
+        this.AST = [];
     }
 
-    add_node(parent, node) {
-        for (let x in this.AST) {
-            if (this.AST[x][parent]) {
-                this.AST[x][parent].push(node);
-            }
+    add_node(parent, AST, index, node) {
+        let found = false;
+
+        for (let x in AST) {
+            if (AST[x][parent[index]]) {
+                if (index == parent.length - 1) {
+                    AST[x][parent[parent.length - 1]].push(node);
+                    found = true;
+                    
+                    // console.log(index)
+                    break;
+                }    
+                else {
+                    // console.log(AST[x][parent[index]])
+                    this.add_node(parent, AST[x][parent[index]], index++, node);
+                    // console.log(index)
+                }            
+            } 
+            // if (index == 1) {
+                // console.log("index: " + index + ".) ") 
+                // console.log(AST[x])           
+                // console.log(AST[x][parent[index]])        
+            // }
+            
+        }   
+        
+        if (!found) {
+
         }
     }
 
     build_AST() {
         let saved = {};
-        let parent = '';
+        let parent = [];
         let collect = false;
         let added_func = false;
         let value = '';
@@ -24,14 +47,14 @@ class Parser {
             // Check if current element is a function
             if (this.tokens[x]['id'] == 'func') {
                 value = this.tokens[x]['value'];
-                added_func = true;
+                // added_func = true;
             }
 
             // Check if current element is a container open
             else if (this.tokens[x]['id'] == 'container') {
                 
                 // If function declaration is called
-                if (added_func) {
+                // if (added_func) {
 
                     // If current element is a '{'
                     if (this.tokens[x]['value'] == 'open') {
@@ -39,20 +62,22 @@ class Parser {
                         t[value] = [];
 
                         // Check if a parent is existing based on top code
-                        if (parent != t) {
-                            parent = value;
+                        if (parent.length == 0) {
                             this.AST.push(t);
                         }
+                        else {                            
+                            this.add_node(parent, this.AST, 0, t);
+                        }
+                        parent.push(value);
                     }
 
                     // If current element is a '}'
                     // Close temporary storage
                     else if (this.tokens[x]['value'] == 'close') {
-                        added_func = false;
-                        parent = {};
-                        parent = '';
+                        // added_func = false;
+                        parent.pop();
                     }
-                }
+                // }
 
                 // If function declaration is not called
                 else {
@@ -67,12 +92,12 @@ class Parser {
                 t['variable'] = {'name': this.tokens[x]['name'], 'type': this.tokens[x]['id'],'value': this.tokens[x]['value']};
 
                 // If a function is not declared
-                if (parent == '') {
+                if (parent.length == 0) {
                     this.AST.push(t);
                 }   
                 // If a function is declared
                 else {                    
-                    this.add_node(parent, t);
+                    this.add_node(parent, this.AST, 0, t);
                 }             
             }
 
@@ -86,16 +111,18 @@ class Parser {
                 t[this.tokens[x]['id']] = this.tokens[x];
 
                 // If called outside a function or no parent
-                if (parent == '') {
+                if (parent.length == 0) {
                     this.AST.push(t);
                 }
                 
                 // If command has a parent
                 else {
-                    this.add_node(parent, t);
+                    this.add_node(parent, this.AST, 0, t);
                 }
             }
             // console.log(this.tokens[x])
         }
+        // console.log(this.AST)
+        console.log(parent)
     }
 }

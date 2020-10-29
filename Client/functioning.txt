@@ -9,6 +9,9 @@ flt test3 = "10";
 bool test4 = "true";
 str test5 = "hi raph";
 
+if test_if = "test4";
+loop second = "test2 < 40";
+
 }
 
 func second {
@@ -28,6 +31,12 @@ exec test2 = "10.5 + test2";
 exec test3 = "0.5 + test3";
 lnstate (test2);
 lnstate (test3);
+}
+
+func test_if {
+
+lnstate "if statement works!";
+
 }
 
 call main;

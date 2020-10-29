@@ -29,6 +29,14 @@ class Exec {
         this.total = position.getTotal();
     }
 }
+class Loop {
+    constructor(id, value, name) {
+        this.id = id;
+        this.name = name;
+        this.value = value;
+        this.total = position.getTotal();
+    }
+}
 class Lexer {
     constructor(data) {
         this.data = data;
@@ -83,13 +91,13 @@ class Lexer {
             // Detect Variable declaration with value
             // OR
             // Executing change string value or mathematical evaluation
-            else if (this.data[x] == '=' && (data_types.includes(status) || status == 'exec')) {
+            else if (this.data[x] == '=' && (data_types.includes(status) || status == 'exec' || status == 'loop' || status == 'if')) {
                 id = current_value;
                 current_value = '';
             }                            
 
             // Printing lnstate and state STRING VERSION 
-            else if ((status == 'lnstate' || status == 'state' || status == 'exec' || data_types.includes(status)) && this.data[x] == '"') {
+            else if ((status == 'lnstate' || status == 'state' || status == 'exec' || status == 'loop' || status == 'if' || data_types.includes(status)) && this.data[x] == '"') {
                 // Allow collection of string with whitespaces
                 if (!collect) {
                     collect = true;
@@ -175,6 +183,20 @@ class Lexer {
                 else if ((status == 'exec')) {
                     if (current_value != '' && id != '') {
                         this.tokens.push(new Exec(status, current_value, id));
+                    }
+                    else if (id == '') {
+                        // TODO: Raise error for no variable name
+                    }
+                    else {
+                        // TODO: Raise error for no value
+                    }
+                    stringVal = false;
+                }
+
+                // Looping or if
+                else if (status == 'loop' || status == 'if') {
+                    if (current_value != '' && id != '') {
+                        this.tokens.push(new Loop(status, current_value, id));
                     }
                     else if (id == '') {
                         // TODO: Raise error for no variable name
