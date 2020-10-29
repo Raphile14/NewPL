@@ -3,21 +3,31 @@ str outside = test;
 func main {
 
 str test;
-int test2 = 10;
-float test3 = 10;
-bool test4 = true;
-str test5 = hi;
+lnstate (test);
+int test2 = "10";
+flt test3 = "10";
+bool test4 = "true";
+str test5 = "hi raph";
 
 }
 
 func second {
 
-state "hi";
+lnstate "hi";
 state "raphael";
 lnstate "new line";
+exec test = "hello Raphael";
+exec test2 = "10 + test2";
+exec test4 = "false";
+
 lnstate (test);
 lnstate (test2);
+lnstate (test4);
 
+exec test2 = "10.5 + test2";
+exec test3 = "0.5 + test3";
+lnstate (test2);
+lnstate (test3);
 }
 
 call main;

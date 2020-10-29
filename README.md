@@ -5,6 +5,11 @@ Final project for CS121.1T.20.21: Programming Languages
 This is a new repository. The New programming language will be deployed on the internet
 
 # Changelog
+indev 2.4.0 (10-29-2020)
+- Bug Fixes
+- Changes to Syntax
+- Exec Functionality (for evaluations and variable changing values)
+
 indev 2.3.2 (10-27-2020)
 - Changelog Update
 

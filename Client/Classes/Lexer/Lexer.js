@@ -21,6 +21,14 @@ class Variable {
         this.total = position.getTotal();
     }
 }
+class Exec {
+    constructor(id, value, name) {
+        this.id = id;
+        this.name = name;
+        this.value = value;
+        this.total = position.getTotal();
+    }
+}
 class Lexer {
     constructor(data) {
         this.data = data;
@@ -73,13 +81,15 @@ class Lexer {
             }
 
             // Detect Variable declaration with value
-            else if (this.data[x] == '=' && (data_types.includes(status))) {
+            // OR
+            // Executing change string value or mathematical evaluation
+            else if (this.data[x] == '=' && (data_types.includes(status) || status == 'exec')) {
                 id = current_value;
                 current_value = '';
-            }
+            }                            
 
             // Printing lnstate and state STRING VERSION 
-            else if ((status == 'lnstate' || status == 'state') && this.data[x] == '"') {
+            else if ((status == 'lnstate' || status == 'state' || status == 'exec' || data_types.includes(status)) && this.data[x] == '"') {
                 // Allow collection of string with whitespaces
                 if (!collect) {
                     collect = true;
@@ -125,7 +135,7 @@ class Lexer {
                     this.tokens.push(new Variable(status, parseInt(current_value), id));
                 }
                 // Declared float with value
-                else if (status == 'float' && current_value != '' && id != '') {
+                else if (status == 'flt' && current_value != '' && id != '') {
                     // TODO: Add error check if value is not an float
                     this.tokens.push(new Variable(status, parseFloat(current_value), id));
                 }
@@ -159,6 +169,20 @@ class Lexer {
                     // console.log(status)
                     // console.log(current_value)
                     // console.log("pushed")
+                }
+
+                // Execution
+                else if ((status == 'exec')) {
+                    if (current_value != '' && id != '') {
+                        this.tokens.push(new Exec(status, current_value, id));
+                    }
+                    else if (id == '') {
+                        // TODO: Raise error for no variable name
+                    }
+                    else {
+                        // TODO: Raise error for no value
+                    }
+                    stringVal = false;
                 }
 
                 // Calling a function
