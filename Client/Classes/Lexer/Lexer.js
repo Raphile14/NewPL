@@ -37,6 +37,14 @@ class Loop {
         this.total = position.getTotal();
     }
 }
+class Enter {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+        this.value = null;
+        this.total = position.getTotal();
+    }
+}
 class Lexer {
     constructor(data) {
         this.data = data;
@@ -53,6 +61,7 @@ class Lexer {
         let current_value = '';
         let collect = false; // set to collect string values
         let stringVal = false; // determing if collect string value is a string or variable
+        let char = false; // determine character collection
 
         // Running through each character
         for (let x = 0; x < this.data.length; x++) {
@@ -91,35 +100,42 @@ class Lexer {
             // Detect Variable declaration with value
             // OR
             // Executing change string value or mathematical evaluation
-            else if (this.data[x] == '=' && (data_types.includes(status) || status == 'exec' || status == 'loop' || status == 'if')) {
+            // OR
+            // Accept Looping and If statements            
+            else if (this.data[x] == '=' && (data_types.includes(status) || status == 'exec' || status == 'loop' || status == 'if' || status == 'enter')) {
                 id = current_value;
                 current_value = '';
             }                            
 
             // Printing lnstate and state STRING VERSION 
+            // Acquiring data for loop, if statement, and exec
             else if ((status == 'lnstate' || status == 'state' || status == 'exec' || status == 'loop' || status == 'if' || data_types.includes(status)) && this.data[x] == '"') {
                 // Allow collection of string with whitespaces
                 if (!collect) {
                     collect = true;
+                    char = true;
                 }
                 // Turn off string collection
                 else if (collect) {
                     collect = false;
                     stringVal = true;
+                    char = false;
                     // console.log(current_value)
                 }
                 // console.log("print function");
             }
 
             // Printing lnstate and state VARIABLE VERSION 
-            else if ((status == 'lnstate' || status == 'state') && (this.data[x] == '(' || this.data[x] == ')')) {
+            // OR
+            // Accept enter function
+            else if ((status == 'lnstate' || status == 'state' || status == 'enter' ) && (this.data[x] == '(' || this.data[x] == ')') && !char) {
                 // Allow collection of string with whitespaces
                 if (!collect && this.data[x] == '(') {
-                    collect = true;
+                    collect = true;                    
                 }
                 // Turn off string collection
                 else if (collect && this.data[x] == ')') {
-                    collect = false;
+                    collect = false;                    
                     // console.log(current_value)
                 }
                 // console.log("print function");
@@ -205,6 +221,19 @@ class Lexer {
                         // TODO: Raise error for no value
                     }
                     stringVal = false;
+                }
+
+                // Enter value from user
+                else if (status == 'enter') {
+                    if (current_value != '') {
+                        this.tokens.push(new Enter(status, current_value));
+                    }
+                    else if (current_value == '') {
+                        // TODO: Raise error for no variable name
+                    }
+                    else {
+                        // TODO: Raise error for no value
+                    }
                 }
 
                 // Calling a function

@@ -2,6 +2,7 @@ class Evaluator {
     constructor() {
         // this.AST = AST;
         this.program = true;
+        this.received = false;
     }
 
     run(node) {
@@ -80,7 +81,53 @@ class Evaluator {
             else if (code[0] == 'if') {
                 this.if_statement(code);
             }
+
+            // If a enter command is called
+            else if (code[0] == 'enter') {
+                this.enter(code);
+            }
         }
+    }
+
+    // Method Functions
+    enter(code) {
+        let data = prompt();
+        
+        // If value is equal to null
+        if (data == 'null') {
+            defined_variables[code[1]['name']]['value']
+        }
+        else if (defined_variables[code[1]['name']]['type'] == 'str') {
+            defined_variables[code[1]['name']]['value'] = data; 
+        }
+        // If element is a bool
+        else if (defined_variables[code[1]['name']]['type'] == 'bool') {
+            let value;
+            if (data == 'true') {
+                value = true;
+            }
+            else if (data == 'false') {
+                value = false;
+            }
+            else {
+                // TODO: Error invalid input
+            }
+            defined_variables[code[1]['name']]['value'] = data;                    
+        }
+        // If element is an int
+        else if (defined_variables[code[1]['name']]['type'] == 'int') {
+            let value = eval(data);
+            defined_variables[code[1]['name']]['value'] = parseInt(value);  
+            window[code[1]['name']] = parseInt(value);   
+        }
+
+        // If element is an float
+        else if (defined_variables[code[1]['name']]['type'] == 'flt') {
+            let value = eval(data);
+            defined_variables[code[1]['name']]['value'] = parseFloat(value);  
+            window[code[1]['name']] = parseFloat(value);   
+        }
+        console.log('enter called')        
     }
 
     if_statement(code) {
@@ -105,8 +152,7 @@ class Evaluator {
             window[code[1]['name']] = code[1]['value'];
         }
     }
-
-    // Method Functions
+    
     exec(code) {
         if (defined_variables[code[1]['name']]) {
 

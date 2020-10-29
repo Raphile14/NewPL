@@ -1,0 +1,284 @@
+lnstate "New Programming Language";
+lnstate "------------------------------";
+lnstate "Arithmetic Test";
+lnstate "------------------------------";
+lnstate "";
+lnstate "";
+
+
+lnstate "------------------------------";
+lnstate "+++ Addition +++";
+lnstate "------------------------------";
+lnstate "INTEGER and INTEGER";
+lnstate "";
+
+int add1 = 10; int add2 = 20; int sum;
+lnstate "/// Test 1 ///"; 
+lnstate "Addend 1: "; state (add1); lnstate "Addend 2: "; state (add2);
+exec sum = "add1 + add2";
+lnstate "=== Sum: "; state(sum); state " ===";
+lnstate "";
+
+int add3 = 6; int add4 = 5; int sum2;
+lnstate "/// Test 2 ///"; 
+lnstate "Addend 1: "; state (add3); lnstate "Addend 2: "; state (add4);
+exec sum2 = "add3 + add4";
+lnstate "=== Sum: "; state(sum2); state " ===";
+lnstate "";
+
+lnstate "FLOAT and FLOAT";
+lnstate "";
+
+flt add5 = 3.3; flt add6 = 4.5; flt sum3;
+lnstate "/// Test 3 ///"; 
+lnstate "Addend 1: "; state (add5); lnstate "Addend 2: "; state (add6);
+exec sum3 = "add5 + add6";
+lnstate "=== Sum: "; state(sum3); state " ===";
+lnstate "";
+
+flt add7 = 1.6; flt add8 = 0.5; flt sum4;
+lnstate "/// Test 4 ///"; 
+lnstate "Addend 1: "; state (add7); lnstate "Addend 2: "; state (add8);
+exec sum4 = "add7 + add8";
+lnstate "=== Sum: "; state(sum4); state " ===";
+lnstate "";
+
+lnstate "FLOAT and INTEGER";
+lnstate "";
+
+flt add9 = 5.4; int add10 = 2; flt sum5;
+lnstate "/// Test 5 -FLOAT SUM- ///"; 
+lnstate "Addend 1: "; state (add9); lnstate "Addend 2: "; state (add10);
+exec sum5 = "add9 + add10";
+lnstate "=== Sum: "; state(sum5); state " ===";
+lnstate "";
+
+int add11 = 3; flt add12 = 5.5; int sum6;
+lnstate "/// Test 6 -INT SUM- ///"; 
+lnstate "Addend 1: "; state (add11); lnstate "Addend 2: "; state (add12);
+exec sum6 = "add11 + add12";
+lnstate "=== Sum: "; state(sum6); state " ===";
+lnstate "";
+lnstate "";
+
+lnstate "------------------------------";
+lnstate "--- Subtraction ---";
+lnstate "------------------------------";
+lnstate "INTEGER and INTEGER";
+lnstate "";
+
+int sub1 = 10; int sub2 = 20; int diff;
+lnstate "/// Test 7 ///"; 
+lnstate "Subtrahend 1: "; state (sub1); lnstate "Minuend 2: "; state (sub2);
+exec diff = "sub1 - sub2";
+lnstate "=== Difference: "; state(diff); state " ===";
+lnstate "";
+
+int sub3 = 6; int sub4 = 5; int diff2;
+lnstate "/// Test 8 ///"; 
+lnstate "Subtrahend 1: "; state (sub3); lnstate "Minuend 2: "; state (sub4);
+exec diff2 = "sub3 - sub4";
+lnstate "=== Difference: "; state(diff2); state " ===";
+lnstate "";
+
+lnstate "FLOAT and FLOAT";
+lnstate "";
+
+flt sub5 = 3.4; flt sub6 = 4.5; flt diff3;
+lnstate "/// Test 9 ///"; 
+lnstate "Subtrahend 1: "; state (sub5); lnstate "Minuend 2: "; state (sub6);
+exec diff3 = "sub5 - sub6";
+lnstate "=== Difference: "; state(diff3); state " ===";
+lnstate "";
+
+flt sub7 = 1.6; flt sub8 = 0.5; flt diff4;
+lnstate "/// Test 10 ///"; 
+lnstate "Subtrahend 1: "; state (sub7); lnstate "Minuend 2: "; state (sub8);
+exec diff4 = "sub7 - sub8";
+lnstate "=== Difference: "; state(diff4); state " ===";
+lnstate "";
+
+lnstate "FLOAT and INTEGER";
+lnstate "";
+
+flt sub9 = 5.3; int sub10 = 2; flt diff5;
+lnstate "/// Test 11 -FLOAT DIFF- ///"; 
+lnstate "Subtrahend 1: "; state (sub9); lnstate "Minuend 2: "; state (sub10);
+exec diff5 = "sub9 - sub10";
+lnstate "=== Difference: "; state(diff5); state " ===";
+lnstate "";
+
+int sub11 = 3; flt sub12 = 5.5; int diff6;
+lnstate "/// Test 12 -INT DIFF- ///"; 
+lnstate "Subtrahend 1: "; state (sub11); lnstate "Minuend 2: "; state (sub12);
+exec diff6 = "sub11 - sub12";
+lnstate "=== Difference: "; state(diff6); state " ===";
+lnstate "";
+lnstate "";
+
+
+lnstate "------------------------------";
+lnstate "*** Multiplication ***";
+lnstate "------------------------------";
+lnstate "INTEGER and INTEGER";
+lnstate "";
+
+int mul1 = 10; int mul2 = 20; int prod;
+lnstate "/// Test 13 ///"; 
+lnstate "Factor 1: "; state (mul1); lnstate "Factor 2: "; state (mul2);
+exec prod = "mul1 * mul2";
+lnstate "=== Product: "; state(prod); state " ===";
+lnstate "";
+
+int mul3 = 6; int mul4 = 5; int prod2;
+lnstate "/// Test 14 ///"; 
+lnstate "Factor 1: "; state (mul3); lnstate "Factor 2: "; state (mul4);
+exec prod2 = "mul3 * mul4";
+lnstate "=== Product: "; state(prod2); state " ===";
+lnstate "";
+
+lnstate "FLOAT and FLOAT";
+lnstate "";
+
+flt mul5 = 3.5; flt mul6 = 4.5; flt prod3;
+lnstate "/// Test 15 ///"; 
+lnstate "Factor 1: "; state (mul5); lnstate "Factor 2: "; state (mul6);
+exec prod3 = "mul5 * mul6";
+lnstate "=== Product: "; state(prod3); state " ===";
+lnstate "";
+
+flt mul7 = 1.6; flt mul8 = 0.5; flt prod4;
+lnstate "/// Test 16 ///"; 
+lnstate "Factor 1: "; state (mul7); lnstate "Factor 2: "; state (mul8);
+exec prod4 = "mul7 * mul8";
+lnstate "=== Product: "; state(prod4); state " ===";
+lnstate "";
+
+lnstate "FLOAT and INTEGER";
+lnstate "";
+
+flt mul9 = 5.3; int mul10 = 2; flt prod5;
+lnstate "/// Test 17 -FLOAT PROD- ///"; 
+lnstate "Factor 1: "; state (mul9); lnstate "Factor 2: "; state (mul10);
+exec prod5 = "mul9 * mul10";
+lnstate "=== Product: "; state(prod5); state " ===";
+lnstate "";
+
+int mul11 = 3; flt mul12 = 5.5; int prod6;
+lnstate "/// Test 18 -INT PROD- ///"; 
+lnstate "Factor 1: "; state (mul11); lnstate "Factor 2: "; state (mul12);
+exec prod6 = "mul11 * mul12";
+lnstate "=== Product: "; state(prod6); state " ===";
+lnstate "";
+lnstate "";
+
+
+lnstate "------------------------------";
+lnstate "/// Division ///";
+lnstate "------------------------------";
+lnstate "INTEGER and INTEGER";
+lnstate "";
+
+int div1 = 10; int div2 = 20; int quo;
+lnstate "/// Test 19 ///"; 
+lnstate "Divisor 1: "; state (div1); lnstate "Dividend 2: "; state (div2);
+exec quo = "div1 / div2";
+lnstate "=== Quotient: "; state(quo); state " ===";
+lnstate "";
+
+int div3 = 6; int div4 = 5; int quo2;
+lnstate "/// Test 20 ///"; 
+lnstate "Divisor 1: "; state (div3); lnstate "Dividend 2: "; state (div4);
+exec quo2 = "div3 / div4";
+lnstate "=== Quotient: "; state(quo2); state " ===";
+lnstate "";
+
+lnstate "FLOAT and FLOAT";
+lnstate "";
+
+flt div5 = 3.4; flt div6 = 4.5; flt quo3;
+lnstate "/// Test 21 ///"; 
+lnstate "Divisor 1: "; state (div5); lnstate "Dividend 2: "; state (div6);
+exec quo3 = "div5 / div6";
+lnstate "=== Quotient: "; state(quo3); state " ===";
+lnstate "";
+
+flt div7 = 1.6; flt div8 = 0.5; flt quo4;
+lnstate "/// Test 22 ///"; 
+lnstate "Divisor 1: "; state (div7); lnstate "Dividend 2: "; state (div8);
+exec quo4 = "div7 / div8";
+lnstate "=== Quotient: "; state(quo4); state " ===";
+lnstate "";
+
+lnstate "FLOAT and INTEGER";
+lnstate "";
+
+flt div9 = 5.3; int div10 = 2; flt quo5;
+lnstate "/// Test 23 -FLOAT QUO- ///"; 
+lnstate "Divisor 1: "; state (div9); lnstate "Dividend 2: "; state (div10);
+exec quo5 = "div9 / div10";
+lnstate "=== Quotient: "; state(quo5); state " ===";
+lnstate "";
+
+int div11 = 3; flt div12 = 5.5; int quo6;
+lnstate "/// Test 24 -INT QUO- ///"; 
+lnstate "Divisor 1: "; state (div11); lnstate "Dividend 2: "; state (div12);
+exec quo6 = "div11 / div12";
+lnstate "=== Quotient: "; state(quo6); state " ===";
+lnstate "";
+lnstate "";
+
+lnstate "------------------------------";
+lnstate "%%% Modulo %%%";
+lnstate "------------------------------";
+lnstate "INTEGER and INTEGER";
+lnstate "";
+
+int mod1 = 10; int mod2 = 20; int res;
+lnstate "/// Test 25 ///"; 
+lnstate "Number 1: "; state (mod1); lnstate "Number 2: "; state (mod2);
+exec res = "mod1 % mod2";
+lnstate "=== Result: "; state(res); state " ===";
+lnstate "";
+
+int mod3 = 6; int mod4 = 5; int res2;
+lnstate "/// Test 26 ///"; 
+lnstate "Number 1: "; state (mod3); lnstate "Number 2: "; state (mod4);
+exec res2 = "mod3 % mod4";
+lnstate "=== Result: "; state(res2); state " ===";
+lnstate "";
+
+lnstate "FLOAT and FLOAT";
+lnstate "";
+
+flt mod5 = 3.5; flt mod6 = 4.5; flt res3;
+lnstate "/// Test 27 ///"; 
+lnstate "Number 1: "; state (mod5); lnstate "Number 2: "; state (mod6);
+exec res3 = "mod5 % mod6";
+lnstate "=== Result: "; state(res3); state " ===";
+lnstate "";
+
+flt mod7 = 1.6; flt mod8 = 0.5; flt res4;
+lnstate "/// Test 28 ///"; 
+lnstate "Number 1: "; state (mod7); lnstate "Number 2: "; state (mod8);
+exec res4 = "mod7 % mod8";
+lnstate "=== Result: "; state(res4); state " ===";
+lnstate "";
+
+lnstate "FLOAT and INTEGER";
+lnstate "";
+
+flt mod9 = 5.3; int mod10 = 2; flt res5;
+lnstate "/// Test 29 -FLOAT RES- ///"; 
+lnstate "Number 1: "; state (mod9); lnstate "Number 2: "; state (mod10);
+exec res5 = "mod9 % mod10";
+lnstate "=== Result: "; state(res5); state " ===";
+lnstate "";
+
+int mod11 = 3; flt mod12 = 5.5; int res6;
+lnstate "/// Test 30 -INT RES- ///"; 
+lnstate "Number 1: "; state (mod11); lnstate "Number 2: "; state (mod12);
+exec res6 = "mod11 % mod12";
+lnstate "=== Result: "; state(res6); state " ===";
+lnstate "";
+lnstate "";

@@ -38,3 +38,6 @@ let defined_variables = [
 
 // Consists of data recording positions
 let position = new Position();
+
+// Toggle input
+let receiving = false;

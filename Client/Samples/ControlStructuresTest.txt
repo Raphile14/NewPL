@@ -1,0 +1,67 @@
+lnstate "New Programming Language";
+lnstate "------------------------------";
+lnstate "Control Structures Test";
+lnstate "------------------------------";
+lnstate "";
+lnstate "";
+lnstate "------------------------------";
+lnstate "Functions";
+lnstate "------------------------------";
+lnstate "";
+
+func main {
+
+lnstate "I should be called second";
+
+}
+
+lnstate "I should be called first!";
+call main;
+
+lnstate "";
+lnstate "";
+lnstate "------------------------------";
+lnstate "Loops";
+lnstate "------------------------------";
+lnstate "";
+
+int number = 0;
+lnstate "Counting from 1 to 10!";
+
+func counter {
+
+exec number = "number + 1";
+lnstate "Number: "; state (number);
+
+}
+
+loop counter = "number < 10";
+
+lnstate "";
+lnstate "Conditions accepted";
+lnstate "==, <=, >=, !=, <, >";
+
+lnstate "";
+lnstate "";
+lnstate "------------------------------";
+lnstate "Ifs";
+lnstate "------------------------------";
+lnstate "";
+
+bool status = "true";
+bool not_working = "false";
+
+func running {
+
+lnstate "You should see me!";
+
+}
+
+func not_running {
+
+lnstate "You should not see me!";
+
+}
+
+if running = "status";
+if not_running = "not_working";

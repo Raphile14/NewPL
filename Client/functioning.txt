@@ -3,6 +3,7 @@ str outside = test;
 func main {
 
 str test;
+enter (test);
 lnstate (test);
 int test2 = "10";
 flt test3 = "10";
@@ -31,6 +32,7 @@ exec test2 = "10.5 + test2";
 exec test3 = "0.5 + test3";
 lnstate (test2);
 lnstate (test3);
+
 }
 
 func test_if {
