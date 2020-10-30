@@ -10,21 +10,13 @@ class Evaluator {
             if (node instanceof Array) {
                 for (let n in node) {
                     for (let [k, v] of Object.entries(node[n])) {
-                        this.execute([k, v]);
-                        // console.log("first")
-                        // console.log(k)
-                        // console.log(v)      
-                        // console.log("-----")                  
+                        this.execute([k, v]);               
                     }
                 }
             }
             else if (typeof node == Object) {
                 for (let [k, v] of Object.entries(node[n])) {
-                    this.execute([k, v]);
-                    // console.log("second")
-                    // console.log(k)
-                    // console.log(v)                    
-                    // console.log("-----")                  
+                    this.execute([k, v]);                
                 }
             }
         }
@@ -33,10 +25,8 @@ class Evaluator {
     execute(code) {
         if (this.program) {
             if (code[1] instanceof Array) {
-                // TODO: Should not run unless called
-                // this.run(code[1]);
-                if (defined_functions[code[0]]) {
-                    // TODO: Function already declared
+                if (defined_functions[code[0]]) {                    
+                    error_class.log_error(position.getTotal(), 10);
                 }
                 else {
                     defined_functions[code[0]] = code[1];
@@ -68,7 +58,7 @@ class Evaluator {
                     this.run(defined_functions[code[1]['value']]);
                 }
                 else {
-                    // TODO: Error function does not exist
+                    error_class.log_error(position.getTotal(), 11);
                 }
             }
 
@@ -95,13 +85,13 @@ class Evaluator {
         
         // If value is equal to null
         if (data == 'null') {
-            defined_variables[code[1]['name']]['value']
+            defined_variables[code[1]['name']]['value'] = null;
         }
         else if (defined_variables[code[1]['name']]['type'] == 'str') {
             defined_variables[code[1]['name']]['value'] = data; 
         }
         // If element is a bool
-        else if (defined_variables[code[1]['name']]['type'] == 'bool') {
+        else if (defined_variables[code[1]['name']]['type'] == 'bool') {            
             let value;
             if (data == 'true') {
                 value = true;
@@ -110,9 +100,9 @@ class Evaluator {
                 value = false;
             }
             else {
-                // TODO: Error invalid input
+                error_class.log_error(position.getTotal(), 12);
             }
-            defined_variables[code[1]['name']]['value'] = data;                    
+            defined_variables[code[1]['name']]['value'] = value;                    
         }
         // If element is an int
         else if (defined_variables[code[1]['name']]['type'] == 'int') {
@@ -126,8 +116,7 @@ class Evaluator {
             let value = eval(data);
             defined_variables[code[1]['name']]['value'] = parseFloat(value);  
             window[code[1]['name']] = parseFloat(value);   
-        }
-        console.log('enter called')        
+        }   
     }
 
     if_statement(code) {
@@ -144,8 +133,7 @@ class Evaluator {
 
     declare_variable (code) {
         if (defined_variables[code[1]['name']]) {
-            // TODO: Error variable already exists
-            console.log('variable already exists')
+            error_class.log_error(position.getTotal(), 13);
         }
         else {
             defined_variables[code[1]['name']] = {type: code[1]['type'], value: code[1]['value']};
@@ -177,7 +165,7 @@ class Evaluator {
                         value = false;
                     }
                     else {
-                        // TODO: Error invalid input
+                        error_class.log_error(position.getTotal(), 14);
                     }
                     defined_variables[code[1]['name']]['value'] = value;                    
                 }
@@ -194,17 +182,14 @@ class Evaluator {
                     let value = eval(code[1]['value']);
                     defined_variables[code[1]['name']]['value'] = parseFloat(value);  
                     window[code[1]['name']] = parseFloat(value);   
-                }
-
-                
+                }                
             }    
             catch (error) {
-                console.log('error executing command')
+                error_class.log_error(position.getTotal(), 16);
             }                
         }
         else {
-            // TODOl Error variable does not exist
-            console.log('Variable ' + code[1]['name'] + ' does not exist')
+            error_class.log_error(position.getTotal(), 15);
         }
     }
     state(v, printLine) {
@@ -220,7 +205,7 @@ class Evaluator {
                 value += defined_variables[v['value']]['value'];             
             }           
             else {
-                // TODO: error if variable does not exist
+                error_class.log_error(position.getTotal(), 17);                
             } 
         }
         $("#code_result").val($("#code_result").val() + value);        

@@ -11,23 +11,13 @@ class Parser {
             if (AST[x][parent[index]]) {
                 if (index == parent.length - 1) {
                     AST[x][parent[parent.length - 1]].push(node);
-                    found = true;
-                    
-                    // console.log(index)
+                    found = true;                    
                     break;
                 }    
                 else {
-                    // console.log(AST[x][parent[index]])
                     this.add_node(parent, AST[x][parent[index]], index++, node);
-                    // console.log(index)
                 }            
-            } 
-            // if (index == 1) {
-                // console.log("index: " + index + ".) ") 
-                // console.log(AST[x])           
-                // console.log(AST[x][parent[index]])        
-            // }
-            
+            }             
         }   
         
         if (!found) {
@@ -57,31 +47,31 @@ class Parser {
                 // if (added_func) {
 
                     // If current element is a '{'
-                    if (this.tokens[x]['value'] == 'open') {
-                        let t = {};
-                        t[value] = [];
+                if (this.tokens[x]['value'] == 'open') {
+                    let t = {};
+                    t[value] = [];
 
-                        // Check if a parent is existing based on top code
-                        if (parent.length == 0) {
-                            this.AST.push(t);
-                        }
-                        else {                            
-                            this.add_node(parent, this.AST, 0, t);
-                        }
-                        parent.push(value);
+                    // Check if a parent is existing based on top code
+                    if (parent.length == 0) {
+                        this.AST.push(t);
                     }
+                    else {                            
+                        this.add_node(parent, this.AST, 0, t);
+                    }
+                    parent.push(value);
+                }
 
-                    // If current element is a '}'
-                    // Close temporary storage
-                    else if (this.tokens[x]['value'] == 'close') {
-                        // added_func = false;
-                        parent.pop();
-                    }
+                // If current element is a '}'
+                // Close temporary storage
+                else if (this.tokens[x]['value'] == 'close') {
+                    // added_func = false;
+                    parent.pop();
+                }
                 // }
 
                 // If function declaration is not called
-                else {
-                    // TODO: Add error message
+                else if (parent.length == 0) {
+                    error_class.log_error(position.getTotal(), 18);
                 }
                 
             }
@@ -120,9 +110,6 @@ class Parser {
                     this.add_node(parent, this.AST, 0, t);
                 }
             }
-            // console.log(this.tokens[x])
         }
-        // console.log(this.AST)
-        console.log(parent)
     }
 }

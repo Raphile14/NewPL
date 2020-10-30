@@ -41,3 +41,6 @@ let position = new Position();
 
 // Toggle input
 let receiving = false;
+
+// Error Class
+let error_class = new Error();

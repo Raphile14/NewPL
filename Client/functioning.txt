@@ -11,7 +11,6 @@ bool test4 = "true";
 str test5 = "hi raph";
 
 if test_if = "test4";
-loop second = "test2 < 40";
 
 }
 
@@ -43,3 +42,16 @@ lnstate "if statement works!";
 
 call main;
 call second;
+
+bool test4 = "truee";
+int test2 = "10a";
+flt test = "10";
+exec = "false";
+exec test4 = ""; exec test4 = ;
+if = "test4";
+loop = "number < 10";
+if test_if = ; if test_if = "";
+loop test = ; loop test = "";
+enter (); enter ;
+func main {} func main {}
+call main;

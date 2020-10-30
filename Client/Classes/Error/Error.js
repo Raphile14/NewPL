@@ -1,71 +1,129 @@
 class Error {
-    constructor(data) {
-        this.data = data;
+    constructor() {
+        this.data;
         this.storage = {
             "0": {
-                "name": "Illegal Character on an Arithmetic Operation!",
-                "type": "Syntax Error:"
+                "name": "- Invalid value for a boolean variable!",
+                "type": "Syntax Error: (Boolean Declaration)"
             },
             "1": {
-                "name": "Function label is not defined!",
-                "type": "Syntax Error:"
+                "name": "- Invalid value for an integer variable!",
+                "type": "Syntax Error: (Integer Declaration)"
             },
             "2": {
-                "name": "Invalid Syntax! Last command not registered",
-                "type": "Syntax Error:"
+                "name": "- Invalid value for a float variable!",
+                "type": "Syntax Error: (Float Declaration)"
             },
             "3": {
-                "name": "A prior function label must contain an 'end'!",
-                "type": "Syntax Error:"
+                "name": "- Executing without a variable name!",
+                "type": "Syntax Error: (Execution)"
             },
-            "4":  {
-                "name": "An 'end' command must be in a function label",
-                "type": "Syntax Error:"
+            "4": {
+                "name": "- Executing without a condition!",
+                "type": "Syntax Error: (Execution)"
+            },
+            "5": {
+                "name": "- Executing without a function name!",
+                "type": "Syntax Error: (Looping)"
+            },
+            "6": {
+                "name": "- Executing without a function name!",
+                "type": "Syntax Error: (If Statement)"
+            },
+            "7": {
+                "name": "- Executing without a condition!",
+                "type": "Syntax Error: (Looping)"
+            },
+            "8": {
+                "name": "- Executing without a condition!",
+                "type": "Syntax Error: (If Statement)"
+            },
+            "9": {
+                "name": "- Acquiring an input without a variable to store!",
+                "type": "Syntax Error: (Enter User Input)"
+            },
+            "10": {
+                "name": "- Function is already declared!",
+                "type": "Syntax Error: (Function Declaration)"
+            },
+            "11": {
+                "name": "- Function is not declared!",
+                "type": "Syntax Error: (Function Calling)"
+            },
+            "12": {
+                "name": "- Invalid value for a boolean variable!",
+                "type": "Runtime Error: (Boolean Input)"
+            },
+            "13": {
+                "name": "- Variable is already declared!",
+                "type": "Logic Error: (Variable Declaration)"
+            },
+            "14": {
+                "name": "- Invalid value for a boolean variable!",
+                "type": "Logic Error: (Execution)"
+            },
+            "15": {
+                "name": "- Variable to be executed does not exist!",
+                "type": "Logic Error: (Execution)"
+            },
+            "16": {
+                "name": "- Failed to execute command!",
+                "type": "Runtime Error: (Execution)"
+            },
+            "17": {
+                "name": "- Failed to state! Variable does not exist!",
+                "type": "Runtime Error: (Stating)"
+            },
+            "18": {
+                "name": "- Using a container without declaring a function!",
+                "type": "Syntax Error: (Function Declaration)"
             }
         }
     }
-    stateLabel (code, label) {
-        console.log(label.length)
-        let pointer = (" ").repeat(label.length) + "^";
-        let error_message = (
-            "\n" + label + "\n" + pointer + "\n" +
-            this.storage[code]["type"] + " " + this.storage[code]["name"])
-            $("#code_result").val($("#code_result").val() + error_message + "\n");        
-        throw {
 
-        }
+    // TODO: Error handling for 
+    // {};
+    // func {};
+
+    set_data(data) {
+        this.data = data;
+        
     }
-    state(code, line, column) {
-        let inLineCounter = 1;
-        let error_code = "";
-        let found = false;
-        for (let loc in this.data) {                     
-            for (let x in this.data[loc]) {
-                if (!found) {
-                    if (this.data[loc][x] != "\n") {
-                        error_code += this.data[loc][x];
-                    }                    
-                    if (this.data[loc][x] == "\n") {
-                        if (inLineCounter == line) {
-                            found = true;
-                        }
-                        else {
-                            inLineCounter ++;
-                            error_code = "";
-                        }                        
-                    }
-                }                
+
+    log_error(location, error_code) {
+
+        let code = '';        
+        let column = 0;
+        let line = 0;
+        let total = 0;
+        let last_line_total = 0;
+
+        // Run through every character and find the line
+        for (let x = 0; x < this.data.length; x++) {
+            column ++;
+            total++;
+            if (this.data[x] == '\n') {
+                line ++;
+                column = 0;
+                code = '';
+                last_line_total = total;
+            }
+            else {                
+                code += this.data[x];
+            }
+            if (total == location) {
+                line++;
+                break;
             }
         }
-        let pointer = (" ").repeat(column) + "^";
-        let error_message = (
-        error_code + "\n" + pointer + "\n" +
-        this.storage[code]["type"] + " " + this.storage[code]["name"]
-        + "\n\tat line: " + line + "\n\tat column: " + column);
-        $("#code_result").val($("#code_result").val() + error_message + "\n");        
-        throw  {
 
-        }  
-          
+        let pointer = ("_").repeat(location - last_line_total) + "^";
+        $("#code_result").val($("#code_result").val() + 
+        '\n' + '(' + error_code + ') ' + this.storage[error_code]["type"] + "\n\t" + this.storage[error_code]["name"] + '\n\n' +
+        code + '\n' + 
+        pointer + '\n\n' +
+        '\tat Line:\t\t' + line + '\n' +
+        '\tat Column:\t' + column + '\n');
+        throw "Error Found";
     }
 }

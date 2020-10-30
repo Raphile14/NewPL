@@ -28,4 +28,10 @@ class Position {
     getTotal() {
         return this.total;
     }
+
+    resetData() {
+        this.line = 0;
+        this.column = 0;
+        this.total = 0;
+    }
 }

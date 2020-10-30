@@ -1,3 +1,4 @@
+// Types
 class Token {
     constructor(id, value) {
         this.id = id;
@@ -45,6 +46,7 @@ class Enter {
         this.total = position.getTotal();
     }
 }
+
 class Lexer {
     constructor(data) {
         this.data = data;
@@ -52,8 +54,6 @@ class Lexer {
     }
 
     tokenizer() {
-        // console.log(keywords.length)
-        // console.log(this.data);
 
         // Current status
         let status = '';
@@ -79,7 +79,6 @@ class Lexer {
             else if (keywords.includes(current_value) && status == '') {
                 status = current_value;
                 current_value = '';
-                // console.log(status);
             }
 
             // Function definition by looking for '{'
@@ -95,6 +94,12 @@ class Lexer {
                 this.tokens.push(new Token('container', 'close'));
                 status = '';
                 current_value = '';
+            }
+
+            // If '{' or '}' is called without function falling
+            else if ((this.data[x] == '{' || this.data[x] == '}') && (status == '')) {
+                error_class.log_error(position.getTotal(), 18);
+                break;
             }
 
             // Detect Variable declaration with value
@@ -118,11 +123,11 @@ class Lexer {
                 // Turn off string collection
                 else if (collect) {
                     collect = false;
-                    stringVal = true;
                     char = false;
-                    // console.log(current_value)
+                    if (status == 'lnstate' || status == 'state') {
+                        stringVal = true;
+                    }                                        
                 }
-                // console.log("print function");
             }
 
             // Printing lnstate and state VARIABLE VERSION 
@@ -136,14 +141,11 @@ class Lexer {
                 // Turn off string collection
                 else if (collect && this.data[x] == ')') {
                     collect = false;                    
-                    // console.log(current_value)
                 }
-                // console.log("print function");
             }
 
             // Detect Delimeter
             else if (this.data[x] == ';' && !collect) {                
-                // TODO: store to global storage and check if variable exists 
                 // Declared variable without value
                 if (data_types.includes(status) && current_value != '' && id == '') {
                     this.tokens.push(new Variable(status, null, current_value));
@@ -155,17 +157,29 @@ class Lexer {
                 }
                 // Declared int with value
                 else if (status == 'int' && current_value != '' && id != '') {
-                    // TODO: Add error check if value is not an int
-                    this.tokens.push(new Variable(status, parseInt(current_value), id));
+                    let int_check = /^-?[0-9]+$/;
+                    if (int_check.test(current_value)) {
+                        this.tokens.push(new Variable(status, parseInt(current_value), id));
+                    }
+                    else {
+                        error_class.log_error(position.getTotal(), 1);
+                        break;
+                    }
                 }
                 // Declared float with value
                 else if (status == 'flt' && current_value != '' && id != '') {
-                    // TODO: Add error check if value is not an float
-                    this.tokens.push(new Variable(status, parseFloat(current_value), id));
+                    let flt_check = /^[-+]?[0-9]+\.[0-9]+$/;
+                    let int_check = /^-?[0-9]+$/;
+                    if (flt_check.test(current_value) || int_check.test(current_value)) {
+                        this.tokens.push(new Variable(status, parseFloat(current_value), id));
+                    }
+                    else {
+                        error_class.log_error(position.getTotal(), 2);
+                        break;
+                    }                    
                 }
                 // Declared boolean with value
-                else if (status == 'bool' && current_value != '' && id != '') {
-                    // TODO: Add error check if value is not an bool                    
+                else if (status == 'bool' && current_value != '' && id != '') {                  
                     let value;
                     if (current_value == 'true') {
                         value = true
@@ -174,8 +188,7 @@ class Lexer {
                         value = false
                     }
                     else {
-                        // TODO: Error if not a boolean input
-                        console.log("boolean error");
+                        error_class.log_error(position.getTotal(), 0);
                         break;
                     }
                     this.tokens.push(new Variable(status, value, id));
@@ -190,9 +203,6 @@ class Lexer {
                         this.tokens.push(new StringPrint(status, current_value, false));
                     }
                     stringVal = false;
-                    // console.log(status)
-                    // console.log(current_value)
-                    // console.log("pushed")
                 }
 
                 // Execution
@@ -201,10 +211,12 @@ class Lexer {
                         this.tokens.push(new Exec(status, current_value, id));
                     }
                     else if (id == '') {
-                        // TODO: Raise error for no variable name
+                        error_class.log_error(position.getTotal(), 3);
+                        break;
                     }
-                    else {
-                        // TODO: Raise error for no value
+                    else if (current_value == '') {
+                        error_class.log_error(position.getTotal(), 4);
+                        break;
                     }
                     stringVal = false;
                 }
@@ -215,10 +227,26 @@ class Lexer {
                         this.tokens.push(new Loop(status, current_value, id));
                     }
                     else if (id == '') {
-                        // TODO: Raise error for no variable name
+                        if (status == 'loop') {
+                            error_class.log_error(position.getTotal(), 5);
+                            break;
+                        }                        
+                        else if (status == 'if') {
+                            error_class.log_error(position.getTotal(), 6);
+                            break;
+                        }
+                        break;
                     }
-                    else {
-                        // TODO: Raise error for no value
+                    else if (current_value == '') {
+                        if (status == 'loop') {
+                            error_class.log_error(position.getTotal(), 7);
+                            break;
+                        }                        
+                        else if (status == 'if') {
+                            error_class.log_error(position.getTotal(), 8);
+                            break;
+                        }
+                        break;
                     }
                     stringVal = false;
                 }
@@ -229,16 +257,13 @@ class Lexer {
                         this.tokens.push(new Enter(status, current_value));
                     }
                     else if (current_value == '') {
-                        // TODO: Raise error for no variable name
-                    }
-                    else {
-                        // TODO: Raise error for no value
+                        error_class.log_error(position.getTotal(), 9);
+                        break;
                     }
                 }
 
                 // Calling a function
                 else if (status == 'call' && current_value != '') {
-                    // console.log('function ' + current_value + ' is called');
                     this.tokens.push(new Token(status, current_value));
                 }                
 
@@ -257,8 +282,5 @@ class Lexer {
                 current_value += this.data[x];
             }            
         }
-        // console.log(current_value);
-        console.log(this.tokens);
-        // console.log(position)
     }
 }
